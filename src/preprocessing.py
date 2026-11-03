@@ -1,21 +1,24 @@
 import pandas as pd
-from data_loader import load_financial_data
 
-def inspect_dataset(df: pd.DataFrame):
+def clean_and_encode_data(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Run initial exploratory checks on the dataset.
+    Preprocess and clean FinAccess data.
     """
-    print("\n--- DATASET OVERVIEW ---")
-    print(f"Total Rows: {df.shape[0]}")
-    print(f"Total Columns: {df.shape[1]}")
+    df_clean = df.copy()
     
-    # Check key columns related to location and financial inclusion if they exist
+    # Run dataset checks / print summary
+    print(f"Dataset Rows: {df_clean.shape[0]}, Columns: {df_clean.shape[1]}")
+    
+    # Check key columns if present
     key_cols = ['county', 'Latitude', 'Longitude', 'PWD']
-    existing_cols = [col for col in key_cols if col in df.columns]
-    
-    print("\n--- SAMPLE KEY COLUMNS SUMMARY ---")
-    print(df[existing_cols].describe())
+    existing_cols = [col for col in key_cols if col in df_clean.columns]
+    if existing_cols:
+        print("Summary of key columns:")
+        print(df_clean[existing_cols].describe())
+        
+    return df_clean
 
 if __name__ == "__main__":
+    from src.data_loader import load_financial_data
     df = load_financial_data("data/2024_Finaccess_Publicdata.dta")
-    inspect_dataset(df)
+    clean_and_encode_data(df)
