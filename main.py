@@ -1,5 +1,5 @@
 """
-Main Orchestration Script for Kenya Financial Inclusion EDA (2024)
+Main Orchestration Script for Kenya Financial Inclusion EDA & Modeling (2024)
 Author: Maina Franklin
 """
 
@@ -8,11 +8,11 @@ import pandas as pd
 from src.data_loader import load_financial_data
 from src.preprocessing import clean_and_encode_data
 from src.eda_analysis import generate_county_distribution, generate_demographic_breakdown, generate_wealth_credit_heatmap
+from src.modeling import train_credit_prediction_model
 
 def main():
-    print("🚀 Starting Kenya FinAccess Data Pipeline...")
+    print("🚀 Starting Kenya FinAccess Data Pipeline & Modeling...")
     
-    # Define data path
     data_path = "data/2024_Finaccess_Publicdata.dta"
     
     if not os.path.exists(data_path):
@@ -36,6 +36,9 @@ def main():
     generate_county_distribution(df_clean)
     generate_demographic_breakdown(df_clean)
     generate_wealth_credit_heatmap(df_clean)
+
+    # Step 4: Predictive Modeling
+    train_credit_prediction_model(df_clean)
     
     print("✨ Pipeline executed successfully! All outputs saved to /outputs/")
 
